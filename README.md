@@ -4,10 +4,11 @@ Optimizations Made:
 ====================
 
 Part 1: Optimize PageSpeed Insights score for index.html
-- Resized/compressed image files
+- Resized/compressed image files (multiple times)
 - Separated out the CSS for printing from the main CSS
 - Added asynchronous loading of all analytics scripts
 - Added javascript to load Google Fonts
+- Minified Index.html, pizza.html, CSS, and JS
 
 Part 2: Optimize Frames per Second in pizza.html
  -
