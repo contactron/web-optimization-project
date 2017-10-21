@@ -9,9 +9,10 @@ Part 1: Optimize PageSpeed Insights score for index.html
 - Added asynchronous loading of all analytics scripts
 - Added javascript to load Google Fonts
 - Minified Index.html, pizza.html, CSS, and JS
+- Inlined style.css
 
 Part 2: Optimize Frames per Second in pizza.html
- -
+ - Moved code to capture the amount of scrolling out of the loop that
  -
 
 
