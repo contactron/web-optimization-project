@@ -13,7 +13,7 @@ Part 1: Optimize PageSpeed Insights score for index.html
 
 Part 2: Optimize Frames per Second in pizza.html
  - Moved code to capture the amount of scrolling out of the loop that
- -
+ - Used transformX/Z functions to improve efficiency
 
 
 =====
@@ -35,8 +35,6 @@ Part 2: Optimize Frames per Second in pizza.html
   ```
 
 1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
-
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
 #### Part 2: Optimize Frames per Second in pizza.html
 

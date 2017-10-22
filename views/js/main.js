@@ -504,10 +504,9 @@ function updatePositions() {
   var items = document.querySelectorAll('.mover');
   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
-    // document.body.scrollTop is no longer supported in Chrome.
-    // var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     var phase = Math.sin((scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    var left = -items[i].basicLeft + 1000 * phase + 'px';
+    items[i].style.transform = "translateX("+left+") translateZ(0)";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
