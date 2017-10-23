@@ -14,7 +14,7 @@ Part 1: Optimize PageSpeed Insights score for index.html
 Part 2: Optimize Frames per Second in pizza.html
  - Moved code to capture the amount of scrolling out of the loop that
  - Used transformX/Z functions to improve efficiency
-
+ - Moved pizza size dx and newwidth out of the for loop
 
 =====
 
