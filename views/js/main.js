@@ -403,47 +403,30 @@ var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
   // Changes the value for the size of the pizza above the slider
-  function changeSliderLabel(size) {
+  // Changes the slider value to a percent width
+  function changeSliderLabelGetPercentWidth(size) {
     switch(size) {
       case "1":
         document.querySelector("#pizzaSize").innerHTML = "Small";
-        return;
+        return 0.25;
       case "2":
         document.querySelector("#pizzaSize").innerHTML = "Medium";
-        return;
+        return 0.3333;
       case "3":
         document.querySelector("#pizzaSize").innerHTML = "Large";
-        return;
+        return 0.5;
       default:
         console.log("bug in changeSliderLabel");
     }
   }
 
-  changeSliderLabel(size);
-
-   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
+     // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
     var oldSize = oldWidth / windowWidth;
-
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newSize = sizeSwitcher(size);
+    var newSize = changeSliderLabelGetPercentWidth(size);
     var dx = (newSize - oldSize) * windowWidth;
-
     return dx;
   }
 
@@ -496,7 +479,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
-// Moves the sliding background pizzas based on scroll position
+// // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
@@ -508,6 +491,24 @@ function updatePositions() {
     var left = -items[i].basicLeft + 1000 * phase + 'px';
     items[i].style.transform = "translateX("+left+") translateZ(0)";
   }
+
+
+// Moves the sliding background pizzas based on scroll position
+// function updatePositions() {
+//   frame++;
+//   window.performance.mark("mark_start_frame");
+
+//   var items = document.querySelectorAll('.mover');
+//   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+//   for (var i = 0; i < items.length; i++) {
+//     var phase = Math.sin((scrollTop / 1250) + (i % 5));
+//     items[i].style.transform = 'translateX('+ 100 * phase + 'px)';
+//   }
+
+
+
+
+
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -529,9 +530,9 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "images/pizza.png";
-    elem.style.height = "100px";
-    elem.style.width = "73.333px";
+    elem.src = "images/pizza_small.png";
+    // elem.style.height = "100px";
+    // elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);

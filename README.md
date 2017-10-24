@@ -15,6 +15,7 @@ Part 2: Optimize Frames per Second in pizza.html
  - Moved code to capture the amount of scrolling out of the loop that
  - Used transformX/Z functions to improve efficiency
  - Moved pizza size dx and newwidth out of the for loop
+ - Created new img for background pizzas (pizza_small.png) and scaled it to the correct size. Removed code to dynamically resize the these from main.js.
 
 =====
 
