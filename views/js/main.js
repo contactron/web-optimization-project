@@ -18,6 +18,7 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
+var offsetX = window.innerWidth || document.body.clientWidth;
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -402,8 +403,9 @@ var pizzaElementGenerator = function(i) {
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
-  // Changes the value for the size of the pizza above the slider
-  // Changes the slider value to a percent width
+  // OPTIMIZATION: consolidated resize pizza calcuations into this one function since the code was duplicated. This function now performs two calculation when called
+  // - Changes the value for the size of the pizza above the slider
+  // - Changes the slider value to a percent width and returns the value
   function changeSliderLabelGetPercentWidth(size) {
     switch(size) {
       case "1":
@@ -420,7 +422,7 @@ var resizePizzas = function(size) {
     }
   }
 
-     // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
+  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
@@ -432,6 +434,7 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
+    // OPTIMIZATION: Moved dx calculation out of the loop
     var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[0], size);
     var newwidth = (document.querySelectorAll(".randomPizzaContainer")[0].offsetWidth + dx) + 'px';
     for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
@@ -478,36 +481,21 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
-
 // // Moves the sliding background pizzas based on scroll position
+
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
   var items = document.querySelectorAll('.mover');
+
+  // OPTIMIZATION: Move scrollTop out of the loop as we only need to call this once.
   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin((scrollTop / 1250) + (i % 5));
-    var left = -items[i].basicLeft + 1000 * phase + 'px';
-    items[i].style.transform = "translateX("+left+") translateZ(0)";
+    // OPTIMIZATION: Use tranform to improve performance. We need to know the change in position so calculate this first
+    var changex = (items[i].basicLeft + 100 * phase) -  items[i].style.left - offsetX / 2;
+    items[i].style.transform = 'translateX('+ changex + 'px)';
   }
-
-
-// Moves the sliding background pizzas based on scroll position
-// function updatePositions() {
-//   frame++;
-//   window.performance.mark("mark_start_frame");
-
-//   var items = document.querySelectorAll('.mover');
-//   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-//   for (var i = 0; i < items.length; i++) {
-//     var phase = Math.sin((scrollTop / 1250) + (i % 5));
-//     items[i].style.transform = 'translateX('+ 100 * phase + 'px)';
-//   }
-
-
-
-
 
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -527,12 +515,12 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  // OPTIMIZATION: Reduce the # of pizzas as most are not seen
+  for (var i = 0; i < 40; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza_small.png";
-    // elem.style.height = "100px";
-    // elem.style.width = "73.333px";
+    //OPTIMIZATION: Removed style resizing of pizzas by creating a separate, appropriately sized pizza image specifically for the background pizzas
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
