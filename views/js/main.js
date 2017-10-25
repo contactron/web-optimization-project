@@ -511,14 +511,19 @@ function updatePositions() {
 }
 
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+
+// OPTIMIZATION: Moved updatePositions into window.requestAnimationFrame to reduce paint cycles
+window.addEventListener('scroll', function() {
+  window.requestAnimationFrame(updatePositions);
+});
+
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
   // OPTIMIZATION: Reduce the # of pizzas as most are not seen
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < 30; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza_small.png";
