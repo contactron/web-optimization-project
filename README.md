@@ -14,9 +14,11 @@ Part 1: Optimize PageSpeed Insights score for index.html
 Part 2: Reduce time to resize pizza to 5ms or under
  - Removed redundant code by having one function update the pizza size label and calculate the percentage width.
  - Moved pizza size dx and newwidth calcuations out of the for loop
+ - Created new object to hold all the pizzas that need to be changed so they don't have to be called within the loop
 
 Part 3: Optimize Frames per Second in pizza.html
  - Moved code to capture the amount of scrolling (scrolltop) out of the loop that updates pizza positions
  - Used transformX functions to improve efficiency of pizza repositioning
- - Created new img for background pizzas (pizza_small.png) and scaled it to the correct size. Removed code to dynamically resize when created from main.js.
+ - Created new img for background pizzas (pizza_small.png) and scaled it to the correct size. Removed code to dynamically resize when created from main.js
+
 
