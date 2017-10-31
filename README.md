@@ -1,11 +1,14 @@
 ## Website Performance Optimization portfolio project
 
-How to Run the Application:
-============================
 
 Viewing the Live Site:
 =======================
 1. Point your browser to [https://contactron.github.io/web-optimization-project/index.html]
+
+
+Viewing Source Files:
+=======================
+The production and source files are the same with the exception for a couple files that were minified. In those cases I have suppplied a separate "working" file in the same folder as the production file. So, you will see 'main.js' and 'working_main.js'.
 
 
 Optimizations Made:
