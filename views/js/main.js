@@ -18,7 +18,6 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
-var offsetX = window.innerWidth || document.body.clientWidth;
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -488,17 +487,15 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  var items = document.querySelectorAll('.mover');
+  // OPTIMIZATION: Use.getElementByClassName to more efficiently parse the DOM for the mover class.
+  var items = document.getElementsByClassName('mover');
 
   // OPTIMIZATION: Move scrollTop out of the loop as we only need to call this once.
   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin((scrollTop / 1250) + (i % 5));
-    // OPTIMIZATION: Use tranform to improve performance. We need to know the change in position so calculate this first
-    var changex = (items[i].basicLeft + 100 * phase) -  items[i].style.left - offsetX / 2;
-    items[i].style.transform = 'translateX('+ changex + 'px)';
-  }
-
+    // OPTIMIZATION: Use tranform to improve performance.
+    items[i].style.transform = 'translateX('+ 100 * phase + 'px)';
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -528,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.className = 'mover';
     elem.src = "images/pizza_small.png";
     //OPTIMIZATION: Removed style resizing of pizzas by creating a separate, appropriately sized pizza image specifically for the background pizzas
-    elem.basicLeft = (i % cols) * s;
+    elem.style.left = (i % cols) * s + 'px';
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
