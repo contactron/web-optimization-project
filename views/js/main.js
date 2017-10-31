@@ -495,7 +495,8 @@ function updatePositions() {
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin((scrollTop / 1250) + (i % 5));
     // OPTIMIZATION: Use tranform to improve performance.
-    items[i].style.transform = 'translateX('+ 100 * phase + 'px)';
+    items[i].style.transform = 'translateX(' + 100 * phase + 'px)';
+  }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -523,6 +524,7 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < 30; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
+    //OPTIMIZATION: Created smaller pizza image to avoid resizing
     elem.src = "images/pizza_small.png";
     //OPTIMIZATION: Removed style resizing of pizzas by creating a separate, appropriately sized pizza image specifically for the background pizzas
     elem.style.left = (i % cols) * s + 'px';
